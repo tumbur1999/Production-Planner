@@ -1,0 +1,122 @@
+@model List<ProductionPlanner.Controllers.TestResult>
+@{
+    ViewData["Title"] = "Test Results";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Task 2 Test Results</h1>
+
+    <div class="alert alert-success">
+        <h5><i class="fas fa-chart-bar"></i> Summary</h5>
+        <p class="mb-0">
+            Total Test Cases: <strong>@Model.Count</strong> | 
+            Valid: <strong>@Model.Count(r => r.IsCorrect)</strong> | 
+            Invalid: <strong>@Model.Count(r => !r.IsCorrect)</strong>
+        </p>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Hasil Semua Test Cases</h5>
+                    <span class="badge bg-light text-dark">@Model.Count results</span>
+                </div>
+                <div class="card-body">
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        var result = Model[i];
+                        <div class="card mb-4 border-@(result.IsCorrect ? "success" : "danger")">
+                            <div class="card-header bg-@(result.IsCorrect ? "success" : "danger") text-white">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0">Test Case @(i + 1): @result.TestCase?.Name</h6>
+                                    <span class="badge bg-@(result.IsCorrect ? "light text-dark" : "warning text-dark")">
+                                        @(result.IsCorrect ? "VALID" : "INVALID")
+                                    </span>
+                                </div>
+                                <small>@result.TestCase?.Description</small>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6><i class="fas fa-list"></i> Rencana Awal:</h6>
+                                        <div class="d-flex gap-2 mb-3 flex-wrap">
+                                            @if (result.OriginalPlan != null)
+                                            {
+                                                <span class="badge bg-dark">Senin: @result.OriginalPlan[0]</span>
+                                                <span class="badge bg-dark">Selasa: @result.OriginalPlan[1]</span>
+                                                <span class="badge bg-dark">Rabu: @result.OriginalPlan[2]</span>
+                                                <span class="badge bg-dark">Kamis: @result.OriginalPlan[3]</span>
+                                                <span class="badge bg-dark">Jumat: @result.OriginalPlan[4]</span>
+                                                <span class="badge bg-dark">Sabtu: @result.OriginalPlan[5]</span>
+                                                <span class="badge bg-dark">Minggu: @result.OriginalPlan[6]</span>
+                                            }
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <p><strong>Total:</strong> <span class="badge bg-primary">@result.TestCase?.Total</span></p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p><strong>Hari Kerja:</strong> <span class="badge bg-secondary">@result.TestCase?.WorkingDays</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6><i class="fas fa-check-circle"></i> Rencana Diperbaiki:</h6>
+                                        <div class="d-flex gap-2 mb-3 flex-wrap">
+                                            @if (result.ImprovedPlan != null)
+                                            {
+                                                <span class="badge bg-success">Senin: @result.ImprovedPlan[0]</span>
+                                                <span class="badge bg-success">Selasa: @result.ImprovedPlan[1]</span>
+                                                <span class="badge bg-success">Rabu: @result.ImprovedPlan[2]</span>
+                                                <span class="badge bg-success">Kamis: @result.ImprovedPlan[3]</span>
+                                                <span class="badge bg-success">Jumat: @result.ImprovedPlan[4]</span>
+                                                <span class="badge bg-success">Sabtu: @result.ImprovedPlan[5]</span>
+                                                <span class="badge bg-success">Minggu: @result.ImprovedPlan[6]</span>
+                                            }
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <p><strong>Total Improved:</strong> <span class="badge bg-info">@(result.ImprovedPlan?.Sum() ?? 0)</span></p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p><strong>Status:</strong> 
+                                                    <span class="badge bg-@(result.IsCorrect ? "success" : "danger")">
+                                                        @(result.IsCorrect ? "VALID" : "INVALID")
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                @if (!result.IsCorrect)
+                                {
+                                    <div class="alert alert-warning mt-2">
+                                        <small><i class="fas fa-exclamation-triangle"></i> <strong>Perhatian:</strong> Total produksi tidak sama antara rencana awal dan rencana diperbaiki.</small>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <div class="mt-4 text-center">
+                        <a href="/Test/Task2" class="btn btn-primary btn-lg">
+                            <i class="fas fa-arrow-left"></i> Kembali ke Test Cases
+                        </a>
+                        <a href="/Task2" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-tasks"></i> Kembali ke Task 2
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .badge {
+        font-size: 0.8em;
+        padding: 0.5em 0.75em;
+    }
+</style>

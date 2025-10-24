@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ProductionPlanner.Data;
+using ProductionPlanner.Models;
 using System.Diagnostics;
 
 namespace ProductionPlanner.Controllers
@@ -6,10 +9,12 @@ namespace ProductionPlanner.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly AppDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, AppDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         // DEFAULT ROUTE: http://localhost:5137/ → Redirect ke Task2
@@ -25,10 +30,19 @@ namespace ProductionPlanner.Controllers
             return View();
         }
 
-        // TASK 2: http://localhost:5137/Task2 (7 hari - TANPA database untuk sementara)
+        // TASK 2: http://localhost:5137/Task2 (7 hari - DENGAN database)
         [Route("Task2")]
-        public IActionResult Task2()
+        public IActionResult Task2(int? senin, int? selasa, int? rabu, int? kamis, int? jumat, int? sabtu, int? minggu)
         {
+            // Jika ada parameter, set ke ViewBag untuk pre-fill form
+            if (senin.HasValue) ViewBag.Senin = senin.Value;
+            if (selasa.HasValue) ViewBag.Selasa = selasa.Value;
+            if (rabu.HasValue) ViewBag.Rabu = rabu.Value;
+            if (kamis.HasValue) ViewBag.Kamis = kamis.Value;
+            if (jumat.HasValue) ViewBag.Jumat = jumat.Value;
+            if (sabtu.HasValue) ViewBag.Sabtu = sabtu.Value;
+            if (minggu.HasValue) ViewBag.Minggu = minggu.Value;
+
             return View();
         }
 
@@ -43,7 +57,7 @@ namespace ProductionPlanner.Controllers
             return View(new { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        // PROCESS TASK 1 - 5 HARI KERJA
+        // PROCESS TASK 1 - 5 HARI KERJA (TANPA DATABASE)
         [HttpPost]
         [Route("ProcessTask1")]
         public IActionResult ProcessTask1(int senin, int selasa, int rabu, int kamis, int jumat)
@@ -130,10 +144,10 @@ namespace ProductionPlanner.Controllers
             }
         }
 
-        // PROCESS TASK 2 - 7 HARI
+        // PROCESS TASK 2 - 7 HARI (DENGAN DATABASE)
         [HttpPost]
         [Route("ProcessTask2")]
-        public IActionResult ProcessTask2(int senin, int selasa, int rabu, int kamis, int jumat, int sabtu, int minggu, bool lihatData = false)
+        public async Task<IActionResult> ProcessTask2(int senin, int selasa, int rabu, int kamis, int jumat, int sabtu, int minggu, bool lihatData = false)
         {
             try
             {
@@ -143,7 +157,7 @@ namespace ProductionPlanner.Controllers
 
                 // Hitung hari kerja (nilai > 0)
                 int workingDays = originalPlan.Count(x => x > 0);
-                
+
                 if (workingDays == 0)
                 {
                     TempData["Error"] = "Minimal harus ada 1 hari kerja!";
@@ -190,13 +204,42 @@ namespace ProductionPlanner.Controllers
                     }
                 }
 
-                // Untuk sementara, abaikan parameter lihatData (tidak simpan ke database)
+                // Simpan ke database jika lihatData dicentang
+                if (lihatData)
+                {
+                    var productionPlan = new ProductionPlan
+                    {
+                        CreatedDate = DateTime.Now,
+                        Senin = senin,
+                        Selasa = selasa,
+                        Rabu = rabu,
+                        Kamis = kamis,
+                        Jumat = jumat,
+                        Sabtu = sabtu,
+                        Minggu = minggu,
+                        ImprovedSenin = improvedPlan[0],
+                        ImprovedSelasa = improvedPlan[1],
+                        ImprovedRabu = improvedPlan[2],
+                        ImprovedKamis = improvedPlan[3],
+                        ImprovedJumat = improvedPlan[4],
+                        ImprovedSabtu = improvedPlan[5],
+                        ImprovedMinggu = improvedPlan[6],
+                        TotalProduction = totalProduction,
+                        WorkingDays = workingDays,
+                        PlanType = "Task2"
+                    };
+
+                    _context.ProductionPlans.Add(productionPlan);
+                    await _context.SaveChangesAsync();
+                }
+
+                // Pass data ke view
                 ViewBag.OriginalPlan = originalPlan;
                 ViewBag.ImprovedPlan = improvedPlan;
                 ViewBag.Days = days;
                 ViewBag.TotalProduction = totalProduction;
                 ViewBag.WorkingDays = workingDays;
-                ViewBag.LihatData = false; // Selalu false untuk sementara
+                ViewBag.LihatData = lihatData;
 
                 return View("Task2Result");
             }
@@ -207,11 +250,16 @@ namespace ProductionPlanner.Controllers
             }
         }
 
-        // LIHAT SEMUA DATA - TAMPILAN INFORMASI
+        // LIHAT SEMUA DATA - DENGAN DATA REAL DARI DATABASE
         [Route("ViewAllData")]
-        public IActionResult ViewAllData()
+        public async Task<IActionResult> ViewAllData()
         {
-            return View();
+            var allPlans = await _context.ProductionPlans
+                .Where(p => p.PlanType == "Task2")
+                .OrderByDescending(p => p.CreatedDate)
+                .ToListAsync();
+
+            return View(allPlans);
         }
     }
 }
