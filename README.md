@@ -2,7 +2,7 @@
 
 A comprehensive ASP.NET Core web application for optimizing production planning with intelligent distribution algorithms. This project helps manufacturing companies create balanced production schedules across workdays.
 
-![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-6.0-purple)
+![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-8.0-purple)
 ![MySQL](https://img.shields.io/badge/MySQL-Database-orange)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.0-blue)
 
@@ -22,7 +22,7 @@ Production Planner solves the problem of uneven daily production schedules by im
 
 ### Prerequisites
 
-- [.NET 6.0 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
+- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [MySQL Server](https://dev.mysql.com/downloads/mysql/) (XAMPP recommended)
 - [Git](https://git-scm.com/)
 
@@ -81,7 +81,7 @@ Production Planner solves the problem of uneven daily production schedules by im
 
 ## 🎨 Technology Stack
 
-- **Backend**: ASP.NET Core 6.0, Entity Framework Core, Pomelo MySQL provider, MVC pattern
+- **Backend**: ASP.NET Core 8.0, Entity Framework Core, Pomelo MySQL provider, MVC pattern
 - **Frontend**: Bootstrap 5, Razor Pages, Responsive UI, Font Awesome
 - **Database**: MySQL, EF Core Migrations
 
