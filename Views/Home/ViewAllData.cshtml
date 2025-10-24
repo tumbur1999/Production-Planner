@@ -1,3 +1,4 @@
+@model List<ProductionPlanner.Models.ProductionPlan>
 @{
     ViewData["Title"] = "Semua Data Production Plan";
 }
@@ -9,16 +10,82 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h5>Fitur Database</h5>
+                    <h5>Data Historis Planning Produksi - Task 2</h5>
                 </div>
                 <div class="card-body">
-                    <div class="alert alert-info">
-                        <h5>Fitur Penyimpanan Database</h5>
-                        <p class="mb-0">
-                            Fitur penyimpanan database akan diimplementasikan pada tahap berikutnya. 
-                            Saat ini sistem dapat melakukan processing rencana produksi tanpa penyimpanan data.
-                        </p>
-                    </div>
+                    @if (Model.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Tanggal</th>
+                                        <th>Senin</th>
+                                        <th>Selasa</th>
+                                        <th>Rabu</th>
+                                        <th>Kamis</th>
+                                        <th>Jumat</th>
+                                        <th>Sabtu</th>
+                                        <th>Minggu</th>
+                                        <th>Senin*</th>
+                                        <th>Selasa*</th>
+                                        <th>Rabu*</th>
+                                        <th>Kamis*</th>
+                                        <th>Jumat*</th>
+                                        <th>Sabtu*</th>
+                                        <th>Minggu*</th>
+                                        <th>Total</th>
+                                        <th>Hari Kerja</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int counter = 1;
+                                    }
+                                    @foreach (var plan in Model)
+                                    {
+                                        <tr>
+                                            <td>@counter</td>
+                                            <td>@plan.CreatedDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                            <td>@plan.Senin</td>
+                                            <td>@plan.Selasa</td>
+                                            <td>@plan.Rabu</td>
+                                            <td>@plan.Kamis</td>
+                                            <td>@plan.Jumat</td>
+                                            <td>@plan.Sabtu</td>
+                                            <td>@plan.Minggu</td>
+                                            <td class="text-success"><strong>@plan.ImprovedSenin</strong></td>
+                                            <td class="text-success"><strong>@plan.ImprovedSelasa</strong></td>
+                                            <td class="text-success"><strong>@plan.ImprovedRabu</strong></td>
+                                            <td class="text-success"><strong>@plan.ImprovedKamis</strong></td>
+                                            <td class="text-success"><strong>@plan.ImprovedJumat</strong></td>
+                                            <td class="text-success"><strong>@plan.ImprovedSabtu</strong></td>
+                                            <td class="text-success"><strong>@plan.ImprovedMinggu</strong></td>
+                                            <td><strong>@plan.TotalProduction</strong></td>
+                                            <td>@plan.WorkingDays</td>
+                                        </tr>
+                                        counter++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-muted mt-3">* = Rencana yang diperbaiki</p>
+                        
+                        <div class="alert alert-info mt-3">
+                            <h6>Total Data: @Model.Count records</h6>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">
+                            <h5>Belum ada data planning!</h5>
+                            <p class="mb-0">
+                                Data akan muncul setelah Anda memproses planning di Task 2 dengan mencentang 
+                                <strong>"Simpan ke Database dan Tampilkan di Lihat Semua Data"</strong>.
+                            </p>
+                        </div>
+                    }
 
                     <div class="mt-4">
                         <a href="/Task2" class="btn btn-primary">Kembali ke Task 2</a>

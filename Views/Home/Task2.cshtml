@@ -4,7 +4,7 @@
 
 <div class="text-center">
     <h1 class="display-4">Task 2 - Production Planner (7 Hari)</h1>
-    
+
     @if (TempData["Error"] != null)
     {
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -12,14 +12,19 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
-    
+
     <div class="row justify-content-center mt-4">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div>
                         <h5 class="mb-0">Input Rencana Produksi (Senin - Minggu)</h5>
-                        <p class="mb-0 text-muted"><small>Task 2: Dengan penyimpanan database (centang "Lihat Semua Data")</small></p>
+                        <p class="mb-0 text-muted"><small>Task 2: Dengan penyimpanan database (centang "Lihat Semua
+                                Data")</small></p>
+                    </div>
+                    <div>
+                        <a href="/ViewAllData" class="btn btn-outline-info btn-sm me-2">Lihat Semua Data</a>
+                        <a href="/Test/Task2" class="btn btn-outline-warning btn-sm">Test Cases</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -27,42 +32,54 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="senin" class="form-label">Senin</label>
-                                <input type="number" class="form-control" id="senin" name="senin" min="0" value="5" required>
+                                <input type="number" class="form-control" id="senin" name="senin" min="0"
+                                    value="@(ViewBag.Senin != null ? ViewBag.Senin : 4)" required>
                             </div>
                             <div class="col">
                                 <label for="selasa" class="form-label">Selasa</label>
-                                <input type="number" class="form-control" id="selasa" name="selasa" min="0" value="4" required>
+                                <input type="number" class="form-control" id="selasa" name="selasa" min="0"
+                                    value="@(ViewBag.Selasa != null ? ViewBag.Selasa : 5)" required>
                             </div>
                             <div class="col">
                                 <label for="rabu" class="form-label">Rabu</label>
-                                <input type="number" class="form-control" id="rabu" name="rabu" min="0" value="3" required>
+                                <input type="number" class="form-control" id="rabu" name="rabu" min="0"
+                                    value="@(ViewBag.Rabu != null ? ViewBag.Rabu : 1)" required>
                             </div>
                             <div class="col">
                                 <label for="kamis" class="form-label">Kamis</label>
-                                <input type="number" class="form-control" id="kamis" name="kamis" min="0" value="6" required>
+                                <input type="number" class="form-control" id="kamis" name="kamis" min="0"
+                                    value="@(ViewBag.Kamis != null ? ViewBag.Kamis : 7)" required>
                             </div>
                             <div class="col">
                                 <label for="jumat" class="form-label">Jumat</label>
-                                <input type="number" class="form-control" id="jumat" name="jumat" min="0" value="4" required>
+                                <input type="number" class="form-control" id="jumat" name="jumat" min="0"
+                                    value="@(ViewBag.Jumat != null ? ViewBag.Jumat : 6)" required>
                             </div>
                             <div class="col">
                                 <label for="sabtu" class="form-label">Sabtu</label>
-                                <input type="number" class="form-control" id="sabtu" name="sabtu" min="0" value="0" required>
+                                <input type="number" class="form-control" id="sabtu" name="sabtu" min="0"
+                                    value="@(ViewBag.Sabtu != null ? ViewBag.Sabtu : 4)" required>
                             </div>
                             <div class="col">
                                 <label for="minggu" class="form-label">Minggu</label>
-                                <input type="number" class="form-control" id="minggu" name="minggu" min="0" value="0" required>
+                                <input type="number" class="form-control" id="minggu" name="minggu" min="0"
+                                    value="@(ViewBag.Minggu != null ? ViewBag.Minggu : 0)" required>
                             </div>
                         </div>
                         <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="lihatData" name="lihatData" value="true">
+                            <input class="form-check-input" type="checkbox" id="lihatData" name="lihatData"
+                                value="true">
                             <label class="form-check-label" for="lihatData">
                                 <strong>Simpan ke Database dan Tampilkan di Lihat Semua Data</strong>
                             </label>
                         </div>
                         <div class="mb-3">
                             <p class="text-info">
-                                <strong>Contoh dari soal:</strong> Senin=5, Selasa=4, Rabu=3, Kamis=6, Jumat=4, Sabtu=0, Minggu=0
+                                <strong>Contoh dari soal:</strong> Senin=4, Selasa=5, Rabu=1, Kamis=7, Jumat=6, Sabtu=4,
+                                Minggu=0
+                            </p>
+                            <p class="text-muted">
+                                <small>Note: Nilai 0 berarti hari libur/tidak ada produksi</small>
                             </p>
                         </div>
                         <button type="submit" class="btn btn-primary">Proses</button>
