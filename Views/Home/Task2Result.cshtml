@@ -1,0 +1,97 @@
+@{
+    ViewData["Title"] = "Hasil Task 2";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Hasil Perbaikan Rencana Produksi (7 Hari)</h1>
+    
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5>Rencana produksi berhasil diperbaiki!</h5>
+                </div>
+                <div class="card-body">
+                    <h6>Total Produksi: <strong>@ViewBag.TotalProduction</strong> mobil</h6>
+                    <h6>Hari Kerja: <strong>@ViewBag.WorkingDays</strong> hari</h6>
+                    
+                    <div class="table-responsive mt-4">
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    @foreach (var day in ViewBag.Days)
+                                    {
+                                        <th>@day</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @foreach (var value in ViewBag.OriginalPlan)
+                                    {
+                                        <td>
+                                            @if (value == 0)
+                                            {
+                                                <span class="text-muted"><strong>@value (Libur)</strong></span>
+                                            }
+                                            else
+                                            {
+                                                <strong>@value</strong>
+                                            }
+                                        </td>
+                                    }
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="text-muted">Rencana Awal</p>
+                    </div>
+
+                    <div class="table-responsive mt-4">
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-primary">
+                                <tr>
+                                    @foreach (var day in ViewBag.Days)
+                                    {
+                                        <th>@day</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @foreach (var value in ViewBag.ImprovedPlan)
+                                    {
+                                        <td>
+                                            @if (value == 0)
+                                            {
+                                                <span class="text-muted"><strong>@value (Libur)</strong></span>
+                                            }
+                                            else
+                                            {
+                                                <strong class="text-success">@value</strong>
+                                            }
+                                        </td>
+                                    }
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="text-muted">Rencana yang Diperbaiki</p>
+                    </div>
+
+                    @if (ViewBag.LihatData)
+                    {
+                        <div class="alert alert-info mt-3">
+                            <h6>Data tersimpan di database</h6>
+                            <p class="mb-0">Data planning telah disimpan ke database SQL Server dan dapat dilihat di menu "Lihat Semua Data".</p>
+                        </div>
+                    }
+
+                    <div class="mt-4">
+                        <a href="/Task2" class="btn btn-primary">Kembali ke Task 2</a>
+                        <a href="/Task1" class="btn btn-secondary">Pergi ke Task 1</a>
+                        <a href="/" class="btn btn-outline-info">Kembali ke Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

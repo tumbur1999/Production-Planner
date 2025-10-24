@@ -1,0 +1,74 @@
+@{
+    ViewData["Title"] = "Hasil Task 1";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Hasil Perbaikan Rencana Produksi (5 Hari)</h1>
+    
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5>@ViewBag.Message</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="alert alert-info">
+                                <h6>Informasi Distribusi</h6>
+                                <p class="mb-1">Total Produksi: <strong>@ViewBag.TotalProduction</strong> mobil</p>
+                                <p class="mb-1">Target per Hari: <strong>@ViewBag.TargetPerDay</strong> mobil</p>
+                                <p class="mb-0">Sisa Distribusi: <strong>@ViewBag.Remainder</strong> mobil</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="alert alert-warning">
+                                <h6>Keterangan</h6>
+                                <p class="mb-0">Task 1 hanya melakukan processing tanpa menyimpan data ke database.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive mt-4">
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Hari</th>
+                                    @foreach (var day in ViewBag.Days)
+                                    {
+                                        <th>@day</th>
+                                    }
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Rencana Awal</strong></td>
+                                    @foreach (var value in ViewBag.OriginalPlan)
+                                    {
+                                        <td><strong>@value</strong></td>
+                                    }
+                                    <td><strong>@ViewBag.TotalProduction</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Rencana Diperbaiki</strong></td>
+                                    @foreach (var value in ViewBag.ImprovedPlan)
+                                    {
+                                        <td><strong class="text-success">@value</strong></td>
+                                    }
+                                    <td><strong class="text-success">@ViewBag.TotalProduction</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="/Task1" class="btn btn-primary">Kembali ke Task 1</a>
+                        <a href="/Task2" class="btn btn-secondary">Pergi ke Task 2</a>
+                        <a href="/" class="btn btn-outline-info">Kembali ke Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
