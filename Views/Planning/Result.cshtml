@@ -1,0 +1,22 @@
+@{
+    var result = (int[])ViewBag.Result;
+    var days = new[] { "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu" };
+}
+<h2>Hasil Perataan Produksi</h2>
+
+<table border="1" cellpadding="5">
+    <tr><th>Hari</th><th>Produksi Baru</th></tr>
+    @for (int i = 0; i < 7; i++)
+    {
+        <tr>
+            <td>@days[i]</td>
+            <td>@result[i]</td>
+        </tr>
+    }
+</table>
+
+<p><strong>Total Awal:</strong> @ViewBag.TotalAwal</p>
+<p><strong>Total Akhir:</strong> @ViewBag.TotalAkhir</p>
+
+<a asp-action="Index">← Kembali</a> |
+<a asp-action="List">📋 Lihat Data</a>

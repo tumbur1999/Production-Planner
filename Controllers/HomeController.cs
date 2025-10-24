@@ -2,30 +2,39 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ProductionPlanner.Models;
 
-namespace ProductionPlanner.Controllers;
-
-public class HomeController : Controller
+namespace ProductionPlanner.Controllers
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    public class HomeController : Controller
     {
-        _logger = logger;
-    }
+        public IActionResult Index() => View();
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+        [HttpPost]
+        public IActionResult Result(ProductionPlan plan)
+        {
+            var original = plan.ToList();
+            int total = original.Sum();
+            int avg = total / 5;
+            int remainder = total % 5;
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+            // Urutkan hari berdasarkan nilai terbesar untuk alokasi sisa
+            var sortedDays = original
+                .Select((val, idx) => new { Day = idx, Value = val })
+                .OrderByDescending(x => x.Value)
+                .ToList();
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            // Hasil awal semua = avg
+            int[] result = Enumerable.Repeat(avg, 5).ToArray();
+
+            // Bagi sisa ke hari dengan nilai terbesar
+            for (int i = 0; i < remainder; i++)
+            {
+                result[sortedDays[i].Day]++;
+            }
+
+            ViewBag.Original = original;
+            ViewBag.Result = result;
+            ViewBag.Total = total;
+            return View();
+        }
     }
 }

@@ -1,8 +1,14 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model ProductionPlanner.Models.ProductionPlan
+@{
+    ViewData["Title"] = "Perataan Produksi";
 }
+<h2>Input Rencana Produksi (Senin - Jumat)</h2>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<form asp-action="Result" method="post">
+    <label>Senin</label><input asp-for="Senin" /><br />
+    <label>Selasa</label><input asp-for="Selasa" /><br />
+    <label>Rabu</label><input asp-for="Rabu" /><br />
+    <label>Kamis</label><input asp-for="Kamis" /><br />
+    <label>Jumat</label><input asp-for="Jumat" /><br />
+    <button type="submit">Proses</button>
+</form>
