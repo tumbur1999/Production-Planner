@@ -1,130 +1,136 @@
-# Production Planner
+# 🏭 Production Planner
 
-Sebuah aplikasi web berbasis ASP.NET Core MVC dengan dukungan database (MySQL) untuk merencanakan produksi mobil per hari (Senin–Minggu). Aplikasi ini menyimpan data ke database dan menampilkan hasil perataan produksi.
+A comprehensive ASP.NET Core web application for optimizing production planning with intelligent distribution algorithms. This project helps manufacturing companies create balanced production schedules across workdays.
 
-## 🚀 Fitur
+![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-6.0-purple)
+![MySQL](https://img.shields.io/badge/MySQL-Database-orange)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5.0-blue)
 
-- Input jumlah produksi per hari (Senin–Minggu)
-- Penanganan hari libur (nilai = 0)
-- Hitung total dan rata-rata produksi
-- Perataan hasil produksi dengan menjaga total tetap sama
-- Simpan hasil ke database (Entity Framework Core + MySQL)
-- Tampilkan seluruh data yang tersimpan dalam daftar
+## 📋 Project Overview
 
-## 🧱 Teknologi
+Production Planner solves the problem of uneven daily production schedules by implementing smart distribution algorithms that maintain total production while creating balanced daily outputs.
 
-- ASP.NET Core MVC
-- Entity Framework Core
-- MySQL (Pomelo Provider)
-- C#
-- SQL (untuk operasi database)
+### 🎯 Features
 
-## ⚙️ Instalasi & Setup
+- **Task 1**: 5-day work week production planning (Monday-Friday)
+- **Task 2**: 7-day production planning with weekend support
+- **Database Integration**: MySQL database for storing production plans
+- **Test Automation**: 10 pre-defined test cases for validation
+- **Responsive Design**: Bootstrap-based modern UI
 
-### 1. Prasyarat
+## 🚀 Quick Start
 
-Pastikan sudah menginstal:
+### Prerequisites
 
-- .NET SDK 6.0+
-- MySQL (melalui XAMPP atau standalone)
+- [.NET 6.0 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
+- [MySQL Server](https://dev.mysql.com/downloads/mysql/) (XAMPP recommended)
+- [Git](https://git-scm.com/)
 
-### 2. Clone Repository
+### Installation
 
-```bash
-git clone https://github.com/tumbur1999/Production-Planner.git
-cd Production-Planner
-```
+1. **Clone the repository**
 
-### 3. Konfigurasi Koneksi Database
+   ```bash
+   git clone https://github.com/tumbur1999/Production-Planner.git
+   cd Production-Planner
+   ```
 
-Edit file `appsettings.json`:
+2. **Configure Database**
 
-```json
-{
-	"ConnectionStrings": {
-		"DefaultConnection": "server=localhost;port=3306;database=ProductionPlannerDB;user=root;password=;"
-	},
-	"Logging": {
-		"LogLevel": {
-			"Default": "Information",
-			"Microsoft.AspNetCore": "Warning"
-		}
-	},
-	"AllowedHosts": "*"
-}
-```
+   - Start MySQL server (XAMPP)
+   - Create database: `production_planner`
+   - Update connection string in `appsettings.json`
 
-### 4. Install Dependencies
+3. **Install Dependencies**
 
-```bash
-dotnet add package Pomelo.EntityFrameworkCore.MySql
-dotnet add package Microsoft.EntityFrameworkCore.Tools
-dotnet tool install --global dotnet-ef
-```
+   ```bash
+   dotnet restore
+   ```
 
-### 5. Migrasi Database
+4. **Database Migration**
 
-```bash
-dotnet ef migrations add InitialCreate
-dotnet ef database update
-```
+   ```bash
+   dotnet ef migrations add InitialCreate
+   dotnet ef database update
+   ```
 
-### 6. Jalankan Aplikasi
+5. **Run Application**
+   ```bash
+   dotnet run
+   ```
+   Access: [http://localhost:5137](http://localhost:5137) or any default <i>URL from running command</i>
 
-```bash
-dotnet run
-```
+## 📊 Application Structure
 
-Akses di browser: `https://localhost:5001`
+- **🏠 Home & Navigation**
 
----
+  - Home (/) - Redirects to Task 2
+  - Task 1 (/Task1) - 5-day production planning
+  - Task 2 (/Task2) - 7-day production planning with database
+  - Test Cases (/Test/Task2) - Automated testing suite
+  - View All Data (/ViewAllData) - Database records
 
-## 📁 Struktur Proyek
+- **🔧 Core Features**
 
-```
-/Controllers
-  PlanningController.cs
-/Data
-  AppDbContext.cs
-/Models
-  Planning.cs
-/Views
-  /Planning
-    Index.cshtml     ← Form input
-    Result.cshtml    ← Tabel hasil perataan
-    List.cshtml      ← Daftar semua rencana
-appsettings.json
-Program.cs
-Migrations/
-```
+  - **Task 1: 5-Day Production Planning**: Balances Monday-Friday schedules without database.
+  - **Task 2: 7-Day Production Planning**: Handles full week, supports holidays, optional database storage.
 
----
+- **🧪 Testing Suite**: 10 predefined test cases for Task 2.
 
-## 📊 Contoh Data Uji
+- **🗃️ Database Schema**: `ProductionPlans` table with columns for original and improved daily production, total production, working days, plan type.
 
-| No  | Input Produksi (Sen–Min) | Hasil Perataan | Total |
-| --- | ------------------------ | -------------- | ----- |
-| 1   | 4,5,1,7,6,4,0            | 4,5,4,5,5,4,0  | 27    |
-| 2   | 6,0,4,6,5,0,0            | 6,0,5,6,5,0,0  | 22    |
-| 3   | 5,5,5,5,5,5,5            | 5,5,5,5,5,5,5  | 35    |
-| 4   | 4,4,4,4,4,0,0            | 4,4,4,4,4,0,0  | 20    |
-| 5   | 8,6,4,3,5,0,0            | 7,6,5,4,4,0,0  | 26    |
-| 6   | 3,2,6,5,4,0,0            | 3,3,5,5,4,0,0  | 20    |
-| 7   | 7,7,0,7,5,0,0            | 7,7,0,7,5,0,0  | 26    |
-| 8   | 10,8,9,7,6,5,0           | 9,8,9,8,7,6,0  | 45    |
-| 9   | 5,0,0,6,0,5,6            | 5,0,0,6,0,5,6  | 22    |
-| 10  | 2,3,1,4,2,3,0            | 2,3,2,3,2,3,0  | 15    |
+## 🎨 Technology Stack
 
----
+- **Backend**: ASP.NET Core 6.0, Entity Framework Core, Pomelo MySQL provider, MVC pattern
+- **Frontend**: Bootstrap 5, Razor Pages, Responsive UI, Font Awesome
+- **Database**: MySQL, EF Core Migrations
 
-## 🧠 Tips
+## 🔄 Algorithm Logic
 
-- Gunakan angka 0 untuk hari libur agar tidak dihitung dalam rata-rata.
-- Pastikan `dotnet-ef` sudah diinstal agar migrasi database bisa dijalankan.
-- Pastikan folder `Migrations/` ikut di-push ke GitHub agar tim lain bisa langsung `update database` tanpa konflik.
+- Count working days (production > 0)
+- Compute target: Total / Working Days
+- Distribute remainder +1 to highest original production days
+- Keep holidays unchanged
 
----
+**Example Input:** `[4,5,1,7,6,4,0]` → **Output:** `[5,5,4,5,5,4,0]`
 
-## 🤝 Kontribusi
+## 📝 API Endpoints
 
-Pull request dipersilakan. Untuk perubahan besar, silakan buka issue terlebih dahulu untuk diskusi.
+| Method | Endpoint               | Description                |
+| ------ | ---------------------- | -------------------------- |
+| GET    | /                      | Home (redirects to Task 2) |
+| GET    | /Task1                 | 5-day production form      |
+| GET    | /Task2                 | 7-day production form      |
+| POST   | /ProcessTask1          | Process 5-day plan         |
+| POST   | /ProcessTask2          | Process 7-day plan         |
+| GET    | /ViewAllData           | View database records      |
+| GET    | /Test/Task2            | Test cases list            |
+| POST   | /Test/RunTask2Test     | Run single test            |
+| POST   | /Test/RunAllTask2Tests | Run all tests              |
+
+## 🤝 Contributing
+
+1. Fork the repo
+2. Create feature branch: `git checkout -b feature/AmazingFeature`
+3. Commit changes: `git commit -m 'Add AmazingFeature'`
+4. Push to branch: `git push origin feature/AmazingFeature`
+5. Open Pull Request
+
+## 📄 License
+
+MIT License
+
+## 👥 Authors
+
+- [Tumbur](https://github.com/tumbur1999)
+
+## 🙏 Acknowledgments
+
+- ASP.NET Core team
+- Bootstrap team
+- MySQL for database management
+
+<div align="center">
+⭐ Star this repo if you find it helpful!<br>
+<a href="https://github.com/tumbur1999/Production-Planner/issues">Report Bug</a> · <a href="https://github.com/tumbur1999/Production-Planner/issues">Request Feature</a>
+</div>
