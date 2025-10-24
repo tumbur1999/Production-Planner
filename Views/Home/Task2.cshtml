@@ -1,0 +1,75 @@
+@{
+    ViewData["Title"] = "Task 2 - Production Planner";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Task 2 - Production Planner (7 Hari)</h1>
+    
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0">Input Rencana Produksi (Senin - Minggu)</h5>
+                        <p class="mb-0 text-muted"><small>Task 2: Dengan penyimpanan database (centang "Lihat Semua Data")</small></p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="/ProcessTask2">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="senin" class="form-label">Senin</label>
+                                <input type="number" class="form-control" id="senin" name="senin" min="0" value="5" required>
+                            </div>
+                            <div class="col">
+                                <label for="selasa" class="form-label">Selasa</label>
+                                <input type="number" class="form-control" id="selasa" name="selasa" min="0" value="4" required>
+                            </div>
+                            <div class="col">
+                                <label for="rabu" class="form-label">Rabu</label>
+                                <input type="number" class="form-control" id="rabu" name="rabu" min="0" value="3" required>
+                            </div>
+                            <div class="col">
+                                <label for="kamis" class="form-label">Kamis</label>
+                                <input type="number" class="form-control" id="kamis" name="kamis" min="0" value="6" required>
+                            </div>
+                            <div class="col">
+                                <label for="jumat" class="form-label">Jumat</label>
+                                <input type="number" class="form-control" id="jumat" name="jumat" min="0" value="4" required>
+                            </div>
+                            <div class="col">
+                                <label for="sabtu" class="form-label">Sabtu</label>
+                                <input type="number" class="form-control" id="sabtu" name="sabtu" min="0" value="0" required>
+                            </div>
+                            <div class="col">
+                                <label for="minggu" class="form-label">Minggu</label>
+                                <input type="number" class="form-control" id="minggu" name="minggu" min="0" value="0" required>
+                            </div>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="lihatData" name="lihatData" value="true">
+                            <label class="form-check-label" for="lihatData">
+                                <strong>Simpan ke Database dan Tampilkan di Lihat Semua Data</strong>
+                            </label>
+                        </div>
+                        <div class="mb-3">
+                            <p class="text-info">
+                                <strong>Contoh dari soal:</strong> Senin=5, Selasa=4, Rabu=3, Kamis=6, Jumat=4, Sabtu=0, Minggu=0
+                            </p>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Proses</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

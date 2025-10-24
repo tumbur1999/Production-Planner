@@ -1,12 +1,19 @@
 using Microsoft.EntityFrameworkCore;
-using ProductionPlannerDB.Models;
+using ProductionPlanner.Models;
 
-namespace ProductionPlannerDB.Data
+namespace ProductionPlanner.Data
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
+        }
 
-        public DbSet<Planning> Plannings { get; set; }
+        public DbSet<ProductionPlan> ProductionPlans { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ProductionPlan>().ToTable("ProductionPlans");
+        }
     }
 }

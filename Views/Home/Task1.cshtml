@@ -1,0 +1,59 @@
+@{
+    ViewData["Title"] = "Task 1 - Production Planner";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Task 1 - Production Planner (5 Hari Kerja)</h1>
+    
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Input Rencana Produksi (Senin - Jumat)</h5>
+                    <p class="mb-0 text-muted"><small>Task 1: Processing tanpa penyimpanan database</small></p>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="/ProcessTask1">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="senin" class="form-label">Senin</label>
+                                <input type="number" class="form-control" id="senin" name="senin" min="0" value="4" required>
+                            </div>
+                            <div class="col">
+                                <label for="selasa" class="form-label">Selasa</label>
+                                <input type="number" class="form-control" id="selasa" name="selasa" min="0" value="5" required>
+                            </div>
+                            <div class="col">
+                                <label for="rabu" class="form-label">Rabu</label>
+                                <input type="number" class="form-control" id="rabu" name="rabu" min="0" value="1" required>
+                            </div>
+                            <div class="col">
+                                <label for="kamis" class="form-label">Kamis</label>
+                                <input type="number" class="form-control" id="kamis" name="kamis" min="0" value="4" required>
+                            </div>
+                            <div class="col">
+                                <label for="jumat" class="form-label">Jumat</label>
+                                <input type="number" class="form-control" id="jumat" name="jumat" min="0" value="6" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <p class="text-info">
+                                <strong>Contoh dari soal:</strong> Senin=4, Selasa=5, Rabu=1, Kamis=4, Jumat=6 (Total: 20)
+                            </p>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Proses</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
